@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react'
 import { firebase } from './src/firebase/config'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, NavigationHelpersContext } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { LoginScreen, HomeScreen, RegistrationScreen } from './src/screens'
+import { AddTripScreen, LoginScreen, HomeScreen, RegistrationScreen, TripDetailsScreen } from './src/screens'
 import {decode, encode} from 'base-64'
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -31,7 +31,9 @@ export default function App() {
             setLoading(false)
           });
       } else {
+        setUser(user)
         setLoading(false)
+
       }
     });
   }, []);
@@ -46,9 +48,17 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         { user ? (
-          <Stack.Screen name="Home">
-            {props => <HomeScreen {...props} extraData={user} />}
+          <>
+          <Stack.Screen name="My Trips">
+            {props => <HomeScreen {...props} extraData={{user:user}} />}
           </Stack.Screen>
+          <Stack.Screen name="Add Trip">
+            {props => <AddTripScreen {...props} extraData={{user:user}} />}
+          </Stack.Screen>
+          <Stack.Screen name="Trip Details">
+            {props => <TripDetailsScreen {...props} extraData={{user:user}} />}
+          </Stack.Screen>
+          </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />

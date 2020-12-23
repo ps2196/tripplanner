@@ -184,3 +184,6 @@ buck-out/
 # Expo
 .expo/*
 web-build/
+
+# VS Code
+.vscode

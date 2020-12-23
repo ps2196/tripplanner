@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "React Native Firebase",
-    "slug": "react-native-firebase",
+    "name": "TripPlanner",
+    "slug": "trip-planner",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +23,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.wpam.tripplanner",
     },
     "description": "Built by the team behind https://www.instamobile.io https://www.iosapptemplates.com https://www.instaflutter.com and https://www.instakotlin.com",
     "githubUrl": "https://github.com/instamobile/react-native-firebase"

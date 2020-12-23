@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import { firebase } from '../../firebase/config'
 
@@ -28,7 +27,7 @@ export default function LoginScreen({navigation}) {
                             return;
                         }
                         const user = firestoreDocument.data()
-                        navigation.navigate('Home', {user: user})
+                        navigation.navigate('My Trips', {user: user})
                     })
                     .catch(error => {
                         alert(error)
@@ -41,9 +40,7 @@ export default function LoginScreen({navigation}) {
 
     return (
         <View style={styles.container}>
-            <KeyboardAwareScrollView
-                style={{ flex: 1, width: '100%' }}
-                keyboardShouldPersistTaps="always">
+            <View style={{ flex: 1, width: '100%' }}>
                 <Image
                     style={styles.logo}
                     source={require('../../../assets/icon.png')}
@@ -75,7 +72,7 @@ export default function LoginScreen({navigation}) {
                 <View style={styles.footerView}>
                     <Text style={styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
                 </View>
-            </KeyboardAwareScrollView>
+            </View>
         </View>
     )
 }

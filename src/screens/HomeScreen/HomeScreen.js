@@ -1,92 +1,62 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Keyboard, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Keyboard, View, Text, TouchableOpacity, SegmentedControlIOSComponent, } from 'react-native'
 import styles from './styles';
-import { firebase } from '../../firebase/config'
+import { firebase, getTripsForUser } from '../../firebase/config'
+import Header  from '../../components/Header'
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 export default function HomeScreen(props) {
 
-    const [entityText, setEntityText] = useState('')
-    const [entities, setEntities] = useState([])
+    const [trips, setTrips] = useState([]);
+    const [user, setUser] = useState(props.extraData.user);
+    const [refreshing, setRefreshing] = useState(true)
 
-    const entityRef = firebase.firestore().collection('entities')
-    const userID = props.extraData.id
-
-    useEffect(() => {
-        entityRef
-            .where("authorID", "==", userID)
-            .orderBy('createdAt', 'desc')
-            .onSnapshot(
-                querySnapshot => {
-                    const newEntities = []
-                    querySnapshot.forEach(doc => {
-                        const entity = doc.data()
-                        entity.id = doc.id
-                        newEntities.push(entity)
-                    });
-                    setEntities(newEntities)
-                },
-                error => {
-                    console.log(error)
-                }
-            )
-    }, [])
-
-    const onAddButtonPress = () => {
-        if (entityText && entityText.length > 0) {
-            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-            const data = {
-                text: entityText,
-                authorID: userID,
-                createdAt: timestamp,
-            };
-            entityRef
-                .add(data)
-                .then(_doc => {
-                    setEntityText('')
-                    Keyboard.dismiss()
-                })
-                .catch((error) => {
-                    alert(error)
-                });
+    useEffect( () => {
+        if (refreshing) {
+        getTripsForUser(user.id).then((userTrips) => {
+            setTrips(userTrips);
+            setRefreshing(false);
+        });
         }
+    }, [user, refreshing])
+
+    useEffect( () => {
+        if (props.route &&
+            props.route.params &&
+            props.route.params.refresh) {
+            props.route.params.refresh = false;
+            setRefreshing(true);
+        }
+    });
+
+
+    const goToTrip = (trip) => {
+        props.navigation.navigate('Trip Details', {tripId: trip.id});
     }
 
-    const renderEntity = ({item, index}) => {
+    const renderTrip = (data) =>  {
+        const trip = data.item;
         return (
-            <View style={styles.entityContainer}>
-                <Text style={styles.entityText}>
-                    {index}. {item.text}
-                </Text>
-            </View>
-        )
-    }
+         <View style={styles.tripItemContainer}>
+             <TouchableOpacity
+             onPress={() => goToTrip(trip)}>
+                <Text style={styles.tripText}> {trip.destinaiton}</Text>
+                <Text style={styles.tripDate}>{trip.startDate} - {trip.endDate}</Text>
+             </TouchableOpacity>
+         </View>
+        );
+     }
+
 
     return (
-        <View style={styles.container}>
-            <View style={styles.formContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Add new entity'
-                    placeholderTextColor="#aaaaaa"
-                    onChangeText={(text) => setEntityText(text)}
-                    value={entityText}
-                    underlineColorAndroid="transparent"
-                    autoCapitalize="none"
-                />
-                <TouchableOpacity style={styles.button} onPress={onAddButtonPress}>
-                    <Text style={styles.buttonText}>Add</Text>
-                </TouchableOpacity>
+        <ScrollView>
+            <Header navigation = {props.navigation}/>
+            <View style={styles.tripContainer}>
+            <FlatList
+                  data={trips}
+                  renderItem={(item) => renderTrip(item)}
+            />
             </View>
-            { entities && (
-                <View style={styles.listContainer}>
-                    <FlatList
-                        data={entities}
-                        renderItem={renderEntity}
-                        keyExtractor={(item) => item.id}
-                        removeClippedSubviews={true}
-                    />
-                </View>
-            )}
-        </View>
+        </ScrollView>
     )
 }

@@ -3,54 +3,31 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center'
-    },
-    formContainer: {
+        justifyContent: 'space-around',
         flexDirection: 'row',
-        height: 80,
-        marginTop: 40,
-        marginBottom: 20,
-        flex: 1,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'flex-start',
+        padding: 10
     },
-    input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
+    tripContainer: {
+
+    },
+    tripItemContainer: {
+        paddingVertical: 5,
+        marginVertical: 6,
+        borderColor: 'black',
+        borderWidth: 2,
+        borderRadius:6,
+        marginHorizontal: 20,
         backgroundColor: 'white',
-        paddingLeft: 16,
-        flex: 1,
-        marginRight: 5
     },
-    button: {
-        height: 47,
-        borderRadius: 5,
-        backgroundColor: '#788eec',
-        width: 80,
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 16
-    },
-    listContainer: {
-        marginTop: 20,
-        padding: 20,
-    },
-    entityContainer: {
-        marginTop: 16,
-        borderBottomColor: '#cccccc',
-        borderBottomWidth: 1,
-        paddingBottom: 16
-    },
-    entityText: {
+    tripText: {
         fontSize: 20,
-        color: '#333333'
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    tripDate: {
+        fontSize: 14,
+        color: '#ccc',
+        textAlign: 'center'
     }
 })
