@@ -1,26 +1,17 @@
-# React Native Firebase
+## Trip planner
 
-This is a React Native Firebase Starter Project with login, registration, persisted login, database reads and writes. You can use this project as boilerplate for bootstrapping any new React Native app that uses Firebase as its backend.
-
-<center><img src="https://www.instamobile.io/wp-content/uploads/2020/05/react-native-firebase.png" alt="react native firebase"/></center>
-
-This React Native Firebase starter contains a few key features that all apps backed by Fireabase support:
-
-* Registration with E-mail & Password
-* Login with E-mail and Password
-* Handling persisted login credentials
-* Navigation (react-native-navigation)
-* Writing to Firestore Database
-* Reading from Firestore Database
-* Creating Firestore indices (for performance)
+This application is designed to facilitate organising and managing group trips. It is aimed for smaller group of friends.
+Application allows you to:
+* Create trips
+* Viewing your trips
+* Managing tasks that related to a trip
 
 ## Getting Started (with Expo)
 
 If you are using Expo Cli, clone the repo and run "expo start" in the root folder of the project:
 
 ```
-git clone https://github.com/instamobile/react-native-firebase.git
-cd react-native-firebase
+cd trip-planner
 expo start
 ```
 
@@ -29,8 +20,7 @@ expo start
 If you prefer using React Native CLI, you'll need to eject from Expo first:
 
 ```
-git clone https://github.com/instamobile/react-native-firebase.git
-cd react-native-firebase
+cd trip-planner
 expo eject
 npm install
 react-native run-android // react-native run-ios
